@@ -2,7 +2,7 @@
 // compatible API routes.
 
 const express = require('express');
-const ParseServer = require('parse-server').ParseServer;
+const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
 const path = require('path');
 const args = process.argv || [];
 const test = args.some(arg => arg.includes('jasmine'));
@@ -28,8 +28,19 @@ const config = {
 
 const app = express();
 
+// instantiate ParseGraphQL Server
+const parseGraphQLServer = new ParseGraphQLServer(
+  parseServer,
+  {
+    graphQLPath: '/graphql',
+//     playgroundPath: '/playground'
+  }
+);
+
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
+parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
+// parseGraphQLServer.applyPlayground(app); // (Optional) Mounts the GraphQL Playground - do NOT use in Production
 
 // Serve the Parse API on the /parse URL prefix
 const mountPath = process.env.PARSE_MOUNT || '/parse';
@@ -53,7 +64,9 @@ const port = process.env.PORT || 1337;
 if (!test) {
   const httpServer = require('http').createServer(app);
   httpServer.listen(port, function () {
-    console.log('parse-server-example running on port ' + port + '.');
+    console.log('REST API running on port ' + port + '.');
+    console.log('GraphQL API running on http://your-server-ip:'+ port +'/graphql');
+//     console.log('GraphQL Playground running on http://localhost:1337/playground');
   });
   // This will enable the Live Query real-time server
   ParseServer.createLiveQueryServer(httpServer);
