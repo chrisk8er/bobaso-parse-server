@@ -37,12 +37,12 @@ if (!test) {
   const api = new ParseServer(config);
   
   // instantiate ParseGraphQL Server
-  const parseGraphQLServer = new ParseGraphQLServer(
-    api,
-    {
-      graphQLPath: '/graphql'
-    }
-  );
+//   const parseGraphQLServer = new ParseGraphQLServer(
+//     api,
+//     {
+//       graphQLPath: '/graphql'
+//     }
+//   );
   
   app.use(mountPath, api);
 //   parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
