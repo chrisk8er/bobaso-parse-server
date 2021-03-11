@@ -28,25 +28,26 @@ const config = {
 
 const app = express();
 
-// instantiate ParseGraphQL Server
-const parseGraphQLServer = new ParseGraphQLServer(
-  parseServer,
-  {
-    graphQLPath: '/graphql',
-//     playgroundPath: '/playground'
-  }
-);
-
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
-parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
-// parseGraphQLServer.applyPlayground(app); // (Optional) Mounts the GraphQL Playground - do NOT use in Production
 
 // Serve the Parse API on the /parse URL prefix
 const mountPath = process.env.PARSE_MOUNT || '/parse';
 if (!test) {
   const api = new ParseServer(config);
+  
+  // instantiate ParseGraphQL Server
+  const parseGraphQLServer = new ParseGraphQLServer(
+    api,
+    {
+      graphQLPath: '/graphql',
+  //     playgroundPath: '/playground'
+    }
+  );
+  
   app.use(mountPath, api);
+  parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
+// parseGraphQLServer.applyPlayground(app); // (Optional) Mounts the GraphQL Playground - do NOT use in Production
 }
 
 // Parse Server plays nicely with the rest of your web routes
