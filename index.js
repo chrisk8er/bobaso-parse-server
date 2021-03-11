@@ -44,7 +44,7 @@ if (!test) {
     }
   );
   
-  app.use(mountPath, api);
+  app.use(mountPath, api.app);
   parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
 }
 
