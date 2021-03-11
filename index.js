@@ -2,7 +2,7 @@
 // compatible API routes.
 
 const express = require('express');
-const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
+const { ParseServer, ParseGraphQLServer } = require('parse-server');
 const path = require('path');
 const args = process.argv || [];
 const test = args.some(arg => arg.includes('jasmine'));
