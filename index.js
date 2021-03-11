@@ -40,14 +40,12 @@ if (!test) {
   const parseGraphQLServer = new ParseGraphQLServer(
     api,
     {
-      graphQLPath: '/graphql',
-  //     playgroundPath: '/playground'
+      graphQLPath: '/graphql'
     }
   );
   
   app.use(mountPath, api);
-  parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
-// parseGraphQLServer.applyPlayground(app); // (Optional) Mounts the GraphQL Playground - do NOT use in Production
+//   parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
 }
 
 // Parse Server plays nicely with the rest of your web routes
